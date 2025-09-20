@@ -10,7 +10,7 @@ import AllProperty from "./pages/allproperty"
 
 function App() {
   return (
-    <Router>
+    <Router basename="/property">
       <div className="min-h-screen bg-black text-white">
         <Navbar />
         <div className="pt-16">
