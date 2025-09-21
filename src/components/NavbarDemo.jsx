@@ -1,7 +1,8 @@
-"use client"
-
+// NavbarDemo.jsx
 import { useState, useEffect } from "react"
 import { jwtDecode } from "jwt-decode"
+import { Link } from "react-router-dom"
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -57,60 +58,60 @@ const Navbar = () => {
   }, [jwtToken])
 
   return (
-    <header className={`navbar fixed top-0 left-30 z-50 w-full transition-all duration-300 ${
+    <header className={`navbar fixed top-0 left-0 z-50 w-full transition-all duration-300 ${
       isScrolled ? 'scrolled bg-black/80 backdrop-blur-md shadow-lg' : 'bg-transparent'
     }`}>
-      <div className="navbar-container container mx-auto px-8 lg:px-16 py-4">
+      <div className="navbar-container container mx-auto px-4 lg:px-8 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
-            <a href="/" className="flex items-center">
+            <Link to="/" className="flex items-center">
               <div className="relative h-10 w-10 overflow-hidden rounded-full border border-emerald-500/20">
                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-500 opacity-80"></div>
                 <div className="absolute inset-0 animate-pulse-slow bg-gradient-to-br from-emerald-300/20 via-transparent to-purple-500/10"></div>
               </div>
               <span className="ml-3 bg-gradient-to-r from-white to-emerald-300 bg-clip-text text-xl font-bold text-transparent">ZYPHOR Property</span>
-            </a>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:block">
             <ul className="flex space-x-8">
               <li>
-                <a 
-                  href="/"
+                <Link 
+                  to="/"
                   className="relative text-white/80 transition-colors duration-300 hover:text-white"
                 >
                   Home
                   <span className="absolute -bottom-1 left-0 h-px w-0 bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-300 hover:w-full"></span>
-                </a>
+                </Link>
               </li>
               <li>
-                <a 
-                  href="/sites"
+                <Link 
+                  to="/sites"
                   className="relative text-white/80 transition-colors duration-300 hover:text-white"
                 >
                   Properties
                   <span className="absolute -bottom-1 left-0 h-px w-0 bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-300 hover:w-full"></span>
-                </a>
+                </Link>
               </li>
               <li>
-                <a 
-                  href="/all-properties"
+                <Link 
+                  to="/all-properties"
                   className="relative text-white/80 transition-colors duration-300 hover:text-white"
                 >
                   Lease Properties
                   <span className="absolute -bottom-1 left-0 h-px w-0 bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-300 hover:w-full"></span>
-                </a>
+                </Link>
               </li>
               <li>
-                <a 
-                  href="/settings"
+                <Link 
+                  to="/settings"
                   className="relative text-white/80 transition-colors duration-300 hover:text-white"
                 >
                   Settings
                   <span className="absolute -bottom-1 left-0 h-px w-0 bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-300 hover:w-full"></span>
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>
@@ -119,18 +120,18 @@ const Navbar = () => {
           <div className="hidden items-center space-x-4 md:flex">
             {!jwtToken ? (
               <>
-                <a 
-                  href="/login"
+                <Link 
+                  to="/login"
                   className="rounded-full border border-white/10 bg-black/30 px-5 py-2 text-sm font-medium text-white backdrop-blur-sm transition-all duration-300 hover:border-white/30 hover:bg-black/40 hover:underline"
                 >
                   Log In
-                </a>
-                <a 
-                  href="/signup"
+                </Link>
+                <Link 
+                  to="/signup"
                   className="rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 px-5 py-2 text-sm font-medium text-white transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25 hover:underline"
                 >
                   Sign Up
-                </a>
+                </Link>
               </>
             ) : (
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 text-lg font-bold text-white shadow-lg">
@@ -159,45 +160,51 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className="mt-4 rounded-lg border border-white/10 bg-black/80 p-4 backdrop-blur-lg md:hidden">
             <nav className="flex flex-col space-y-4">
-              <a 
-                href="/"
+              <Link 
+                to="/"
                 className="text-white/80 transition-colors duration-300 hover:text-white"
+                onClick={toggleMobileMenu}
               >
                 Home
-              </a>
-              <a 
-                href="/sites"
+              </Link>
+              <Link 
+                to="/sites"
                 className="text-white/80 transition-colors duration-300 hover:text-white"
+                onClick={toggleMobileMenu}
               >
                 Sites
-              </a>
-              <a 
-                href="/all-properties"
+              </Link>
+              <Link 
+                to="/all-properties"
                 className="text-white/80 transition-colors duration-300 hover:text-white"
+                onClick={toggleMobileMenu}
               >
                 All Properties
-              </a>
-              <a 
-                href="/settings"
+              </Link>
+              <Link 
+                to="/settings"
                 className="text-white/80 transition-colors duration-300 hover:text-white"
+                onClick={toggleMobileMenu}
               >
                 Settings
-              </a>
+              </Link>
               
               {!jwtToken && (
                 <div className="flex flex-col space-y-3 pt-2">
-                  <a 
-                    href="/login"
+                  <Link 
+                    to="/login"
                     className="w-full rounded-full border border-white/10 bg-black/50 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition-all hover:border-white/30 hover:underline"
+                    onClick={toggleMobileMenu}
                   >
                     Log In
-                  </a>
-                  <a 
-                    href="/signup"
+                  </Link>
+                  <Link 
+                    to="/signup"
                     className="w-full rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 px-4 py-2 text-sm font-medium text-white transition-all hover:shadow-lg hover:shadow-emerald-500/25 hover:underline"
+                    onClick={toggleMobileMenu}
                   >
                     Sign Up
-                  </a>
+                  </Link>
                 </div>
               )}
             </nav>
