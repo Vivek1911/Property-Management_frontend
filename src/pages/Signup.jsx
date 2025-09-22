@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 function Signup() {
   const [form, setForm] = useState({ name: "", email: "", password: "", phone: "", role: 0 })
@@ -215,12 +215,12 @@ function Signup() {
             </div>
 
             <div className="mt-6">
-              <a
-                href="/login"
+              <Link
+                to="/login"
                 className="flex w-full justify-center rounded-lg border border-white/20 bg-black px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-white/5"
               >
                 Sign in instead
-              </a>
+              </Link>
             </div>
           </div>
         </div>

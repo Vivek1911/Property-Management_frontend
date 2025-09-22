@@ -1,4 +1,3 @@
-// NavbarDemo.jsx
 import { useState, useEffect } from "react"
 import { jwtDecode } from "jwt-decode"
 import { Link } from "react-router-dom"
@@ -11,9 +10,8 @@ const Navbar = () => {
 
   // Check for JWT token on initial load
   useEffect(() => {
-    // Check if we're in a browser environment before accessing localStorage
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('jwtToken')
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("jwtToken")
       setJwtToken(token)
     }
   }, [])
@@ -21,19 +19,22 @@ const Navbar = () => {
   // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true)
-      } else {
-        setIsScrolled(false)
-      }
+      setIsScrolled(window.scrollY > 50)
     }
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
+  }
+
+  // 🔹 Logout function
+  const handleLogout = () => {
+    localStorage.removeItem("jwtToken")
+    setJwtToken(null)
+    setUser(null)
   }
 
   useEffect(() => {
@@ -58,9 +59,11 @@ const Navbar = () => {
   }, [jwtToken])
 
   return (
-    <header className={`navbar fixed top-0 left-0 z-50 w-full transition-all duration-300 ${
-      isScrolled ? 'scrolled bg-black/80 backdrop-blur-md shadow-lg' : 'bg-transparent'
-    }`}>
+    <header
+      className={`navbar fixed top-0 left-0 z-50 w-full transition-all duration-300 ${
+        isScrolled ? "scrolled bg-black/80 backdrop-blur-md shadow-lg" : "bg-transparent"
+      }`}
+    >
       <div className="navbar-container container mx-auto px-4 lg:px-8 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -70,7 +73,9 @@ const Navbar = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-500 opacity-80"></div>
                 <div className="absolute inset-0 animate-pulse-slow bg-gradient-to-br from-emerald-300/20 via-transparent to-purple-500/10"></div>
               </div>
-              <span className="ml-3 bg-gradient-to-r from-white to-emerald-300 bg-clip-text text-xl font-bold text-transparent">ZYPHOR Property</span>
+              <span className="ml-3 bg-gradient-to-r from-white to-emerald-300 bg-clip-text text-xl font-bold text-transparent">
+                ZYPHOR Property
+              </span>
             </Link>
           </div>
 
@@ -78,7 +83,7 @@ const Navbar = () => {
           <nav className="hidden md:block">
             <ul className="flex space-x-8">
               <li>
-                <Link 
+                <Link
                   to="/"
                   className="relative text-white/80 transition-colors duration-300 hover:text-white"
                 >
@@ -87,7 +92,7 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <Link 
+                <Link
                   to="/sites"
                   className="relative text-white/80 transition-colors duration-300 hover:text-white"
                 >
@@ -96,7 +101,7 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <Link 
+                <Link
                   to="/all-properties"
                   className="relative text-white/80 transition-colors duration-300 hover:text-white"
                 >
@@ -105,7 +110,7 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <Link 
+                <Link
                   to="/settings"
                   className="relative text-white/80 transition-colors duration-300 hover:text-white"
                 >
@@ -116,17 +121,17 @@ const Navbar = () => {
             </ul>
           </nav>
 
-          {/* Auth Buttons */}
+          {/* Auth Buttons (Desktop) */}
           <div className="hidden items-center space-x-4 md:flex">
             {!jwtToken ? (
               <>
-                <Link 
+                <Link
                   to="/login"
                   className="rounded-full border border-white/10 bg-black/30 px-5 py-2 text-sm font-medium text-white backdrop-blur-sm transition-all duration-300 hover:border-white/30 hover:bg-black/40 hover:underline"
                 >
                   Log In
                 </Link>
-                <Link 
+                <Link
                   to="/signup"
                   className="rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 px-5 py-2 text-sm font-medium text-white transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25 hover:underline"
                 >
@@ -134,24 +139,44 @@ const Navbar = () => {
                 </Link>
               </>
             ) : (
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 text-lg font-bold text-white shadow-lg">
-                {user && (
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 text-lg font-bold text-white shadow-lg">
-                    {user.name?.charAt(0).toUpperCase()}
-                  </div>
-                )}
+              <div className="flex items-center space-x-4">
+                {/* Avatar */}
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 text-lg font-bold text-white shadow-lg">
+                  {user?.name?.charAt(0).toUpperCase()}
+                </div>
+                {/* Log Out Button */}
+                <button
+                  onClick={handleLogout}
+                  className="rounded-full border border-white/10 bg-black/30 px-5 py-2 text-sm font-medium text-white backdrop-blur-sm transition-all duration-300 hover:border-white/30 hover:bg-black/40 hover:underline"
+                >
+                  Log Out
+                </button>
               </div>
             )}
           </div>
 
-
           {/* Mobile Menu Button */}
-          <button 
+          <button
             className="block md:hidden text-white focus:outline-none"
             onClick={toggleMobileMenu}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d={
+                  isMobileMenuOpen
+                    ? "M6 18L18 6M6 6l12 12"
+                    : "M4 6h16M4 12h16M4 18h16"
+                }
+              />
             </svg>
           </button>
         </div>
@@ -160,45 +185,45 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className="mt-4 rounded-lg border border-white/10 bg-black/80 p-4 backdrop-blur-lg md:hidden">
             <nav className="flex flex-col space-y-4">
-              <Link 
+              <Link
                 to="/"
                 className="text-white/80 transition-colors duration-300 hover:text-white"
                 onClick={toggleMobileMenu}
               >
                 Home
               </Link>
-              <Link 
+              <Link
                 to="/sites"
                 className="text-white/80 transition-colors duration-300 hover:text-white"
                 onClick={toggleMobileMenu}
               >
                 Sites
               </Link>
-              <Link 
+              <Link
                 to="/all-properties"
                 className="text-white/80 transition-colors duration-300 hover:text-white"
                 onClick={toggleMobileMenu}
               >
                 All Properties
               </Link>
-              <Link 
+              <Link
                 to="/settings"
                 className="text-white/80 transition-colors duration-300 hover:text-white"
                 onClick={toggleMobileMenu}
               >
                 Settings
               </Link>
-              
-              {!jwtToken && (
+
+              {!jwtToken ? (
                 <div className="flex flex-col space-y-3 pt-2">
-                  <Link 
+                  <Link
                     to="/login"
                     className="w-full rounded-full border border-white/10 bg-black/50 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition-all hover:border-white/30 hover:underline"
                     onClick={toggleMobileMenu}
                   >
                     Log In
                   </Link>
-                  <Link 
+                  <Link
                     to="/signup"
                     className="w-full rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 px-4 py-2 text-sm font-medium text-white transition-all hover:shadow-lg hover:shadow-emerald-500/25 hover:underline"
                     onClick={toggleMobileMenu}
@@ -206,6 +231,16 @@ const Navbar = () => {
                     Sign Up
                   </Link>
                 </div>
+              ) : (
+                <button
+                  onClick={() => {
+                    handleLogout()
+                    toggleMobileMenu()
+                  }}
+                  className="mt-3 w-full rounded-full border border-white/10 bg-black/50 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition-all hover:border-white/30 hover:underline"
+                >
+                  Log Out
+                </button>
               )}
             </nav>
           </div>

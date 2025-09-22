@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
+
 
 function Login() {
   const [form, setForm] = useState({ email: "", password: "" })
@@ -159,12 +161,12 @@ function Login() {
             </div>
 
             <div className="mt-6">
-              <a
-                href="/signup"
+              <Link
+                to="/signup"
                 className="flex w-full justify-center rounded-lg border border-white/20 bg-black px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-white/5"
               >
                 Create new account
-              </a>
+              </Link>
             </div>
           </div>
         </div>
